@@ -11,26 +11,181 @@
             padding: 0;
             box-sizing: border-box;
         }
-                
-        .header h1 {
-            font-size: 20px;
-            margin: 0 0 5px 0;
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            height: 100vh;
+            overflow: hidden;
         }
         
-        .header p {
-            font-size: 13px;
-            opacity: 0.9;
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 12px 18px;
+            background: linear-gradient(90deg, #e8f0ff, #f7fbff);
+            border-bottom: 2px solid #e6eefc;
+            box-shadow: 0 2px 6px rgba(30,60,114,0.06);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+            border: 2px solid rgba(30,60,114,0.08);
+            overflow: hidden;
+        }
+        
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 6px;
+        }
+
+        .header-text h1 {
+            font-size: 18px;
             margin: 0;
+            color: #1e3c72;
+            font-weight: 700;
+        }
+
+        .header-text p {
+            font-size: 12px;
+            color: #28436a;
+            opacity: 0.95;
+            margin: 2px 0 0 0;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .header-btn {
+            padding: 8px 14px;
+            border: none;
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+            background: white;
+            color: #1e3c72;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .header-btn:hover {
+            background: #1e3c72;
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+        }
+
+        .view-toggle {
+            display: flex;
+            background: white;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .view-toggle button {
+            padding: 8px 16px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            color: #666;
+            transition: all 0.2s;
+        }
+
+        .view-toggle button.active {
+            background: #1e3c72;
+            color: white;
         }
         
         #map {
             height: calc(100vh - 70px);
             width: 100%;
         }
+
+        #listView {
+            display: none;
+            height: calc(100vh - 70px);
+            overflow-y: auto;
+            padding: 20px;
+            background: #f5f7fa;
+        }
+
+        .institution-card {
+            background: white;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: all 0.2s;
+        }
+
+        .institution-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+            transform: translateY(-2px);
+        }
+
+        .institution-card h3 {
+            color: #1e3c72;
+            margin: 0 0 8px 0;
+            font-size: 16px;
+        }
+
+        .institution-card p {
+            margin: 4px 0;
+            font-size: 13px;
+            color: #666;
+        }
+
+        .card-actions {
+            margin-top: 12px;
+            display: flex;
+            gap: 8px;
+        }
+
+        .card-btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .card-btn-primary {
+            background: #1e3c72;
+            color: white;
+        }
+
+        .card-btn-secondary {
+            background: #e0e0e0;
+            color: #333;
+        }
         
         .control-panel {
             position: absolute;
-            top: 90px;
+            top: 110px;
             right: 10px;
             background: white;
             padding: 15px;
@@ -39,6 +194,34 @@
             z-index: 1000;
             max-width: 280px;
             min-width: 250px;
+            max-height: calc(100vh - 110px);
+            overflow-y: auto;
+        }
+
+        .control-panel.collapsed {
+            width: 50px;
+            padding: 10px;
+        }
+
+        .control-panel.collapsed > *:not(.toggle-panel) {
+            display: none;
+        }
+
+        .toggle-panel {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #1e3c72;
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
         .control-panel h3 {
@@ -68,6 +251,26 @@
             border: 1px solid #ddd;
             border-radius: 4px;
             font-size: 13px;
+        }
+
+        .expiring-filter {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px;
+            background: #fff3cd;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+
+        .expiring-filter input[type="checkbox"] {
+            width: auto;
+        }
+
+        .expiring-filter label {
+            margin: 0;
+            font-size: 12px;
+            color: #856404;
         }
         
         .legend {
@@ -114,20 +317,40 @@
         .stats strong {
             color: #1e3c72;
         }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .stat-box {
+            background: white;
+            padding: 8px;
+            border-radius: 4px;
+            text-align: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .stat-box .number {
+            font-size: 20px;
+            font-weight: bold;
+            color: #1e3c72;
+        }
+
+        .stat-box .label {
+            font-size: 10px;
+            color: #666;
+            margin-top: 2px;
+        }
         
-        /* Pulsing markers for different institution types */
         .pulse-marker {
             width: 30px;
             height: 30px;
             border-radius: 50%;
             cursor: pointer;
             border: 3px solid white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            font-weight: bold;
-            color: white;
         }
         
         .pulse-marker.tvet {
@@ -147,6 +370,12 @@
             box-shadow: 0 0 0 0 rgba(255, 152, 0, 0.7);
             animation: pulse-orange 2s infinite;
         }
+
+        .pulse-marker.enterprise {
+            background: #9C27B0;
+            box-shadow: 0 0 0 0 rgba(156, 39, 176, 0.7);
+            animation: pulse-purple 2s infinite;
+        }
         
         @keyframes pulse-blue {
             0% { box-shadow: 0 0 0 0 rgba(33, 150, 243, 0.7); }
@@ -165,10 +394,28 @@
             70% { box-shadow: 0 0 0 20px rgba(255, 152, 0, 0); }
             100% { box-shadow: 0 0 0 0 rgba(255, 152, 0, 0); }
         }
+
+        @keyframes pulse-purple {
+            0% { box-shadow: 0 0 0 0 rgba(156, 39, 176, 0.7); }
+            70% { box-shadow: 0 0 0 20px rgba(156, 39, 176, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(156, 39, 176, 0); }
+        }
         
         .pulse-marker:hover {
             transform: scale(1.1);
             transition: transform 0.2s;
+        }
+        
+        .school-tooltip {
+            background: rgba(0, 0, 0, 0.8) !important;
+            color: white !important;
+            border: none !important;
+            border-radius: 6px !important;
+            padding: 6px 12px !important;
+            font-size: 12px !important;
+            font-weight: 500 !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
+            white-space: nowrap !important;
         }
         
         .school-popup {
@@ -218,14 +465,25 @@
             display: inline-block;
             width: 130px;
         }
-        
-        .courses-image {
+
+        .courses-text table.courses-table {
             width: 100%;
-            max-width: 320px;
-            height: auto;
-            margin: 10px 0;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-collapse: collapse;
+            margin-top: 6px;
+            font-size: 11px;
+        }
+
+        .courses-text table.courses-table th,
+        .courses-text table.courses-table td {
+            padding: 4px 6px;
+            border: 1px solid #e9e9e9;
+            vertical-align: top;
+            text-align: left;
+        }
+
+        .courses-text table.courses-table th {
+            background: #f5f5f5;
+            font-weight: 600;
         }
         
         .action-buttons {
@@ -262,78 +520,179 @@
         .btn-secondary:hover {
             background: #d0d0d0;
         }
-        
+
         .search-box {
             position: absolute;
-            top: 90px;
-            left: 10px;
+            bottom: 20px;
+            left: 20px;
             background: white;
-            padding: 10px;
+            padding: 12px;
             border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-            z-index: 1000;
-            width: 300px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+            z-index: 1001;
+            width: 280px;
+            border: 2px solid #1e3c72;
         }
         
         .search-box input {
             width: 100%;
             padding: 10px;
-            border: 2px solid #1e3c72;
-            border-radius: 4px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
             font-size: 14px;
+            outline: none;
         }
         
-        .search-results {
+        .search-box input:focus {
+            border-color: #1e3c72;
+            box-shadow: 0 0 0 2px rgba(30, 60, 114, 0.1);
+        }
+        
+        .search-box .search-results {
             max-height: 200px;
             overflow-y: auto;
             margin-top: 8px;
+            border: 1px solid #eee;
+            border-radius: 4px;
+            background: #fff;
+            display: none;
+        }
+
+        .search-box .search-results:not(:empty) {
+            display: block;
         }
         
-        .search-result-item {
-            padding: 8px;
+        .search-box .search-result-item {
+            padding: 10px;
             cursor: pointer;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid #f0f0f0;
             font-size: 13px;
+            transition: background 0.2s;
         }
         
-        .search-result-item:hover {
-            background: #f5f5f5;
+        .search-box .search-result-item:hover {
+            background: #f8f9fa;
         }
         
-        @media print {
-            .control-panel, .search-box {
-                display: none;
+        .search-box .search-result-item:last-child {
+            border-bottom: none;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .header-text h1 {
+                font-size: 14px;
             }
+            
+            .header-text p {
+                font-size: 10px;
+            }
+
+            .header-actions {
+                flex-direction: column;
+            }
+
+            .control-panel {
+                width: calc(100% - 20px);
+                max-width: none;
+                top: 10px;
+                left: 10px;
+                right: 10px;
+            }
+
+
+        }
+
+        /* Print Styles */
+        @media print {
+            .control-panel, .header-actions {
+                display: none !important;
+            }
+            
+            #map {
+                height: 100vh !important;
+            }
+        }
+
+        /* Loading Indicator */
+        .loading {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            z-index: 10000;
+            display: none;
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #1e3c72;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
 </head>
 <body>
     <div class="header">
-        <h1>🎓 BARMM TESD Accreditation Mapping System</h1>
-        <p>Ministry of Basic, Higher and Technical Education - Technical Education and Skills Development</p>
+        <div class="header-left">
+            <div class="logo"><img src="mbhte logo.png" alt="MBHTE Logo"></div>
+            <div class="header-text">
+                <h1>BARMM TESD Accreditation Mapping System</h1>
+                <p>Ministry of Basic, Higher and Technical Education — Technical Education & Skills Development</p>
+            </div>
+        </div>
+        <div class="header-actions">
+            <div class="view-toggle">
+                <button id="mapViewBtn" class="active" onclick="switchView('map')">🗺️ Map</button>
+                <button id="listViewBtn" onclick="switchView('list')">📋 List</button>
+            </div>
+            <button class="header-btn" onclick="exportToCSV()">📥 Export CSV</button>
+            <button class="header-btn" onclick="window.print()">🖨️ Print</button>
+            <button class="header-btn" onclick="shareLocation()">🔗 Share</button>
+        </div>
     </div>
 
-    <div class="search-box">
-        <input type="text" id="searchInput" placeholder="🔍 Search institution name...">
-        <div class="search-results" id="searchResults"></div>
-    </div>
 
-    <div class="control-panel">
+
+    <div class="control-panel" id="controlPanel">
+        <button class="toggle-panel" onclick="togglePanel()" title="Toggle Panel">◀</button>
         <h3>📊 Filters & Controls</h3>
         
+        <div class="expiring-filter">
+            <input type="checkbox" id="expiringFilter" onchange="filterInstitutions()">
+            <label for="expiringFilter">⚠️ Show expiring soon (90 days)</label>
+        </div>
+
         <div class="filter-section">
             <label>Institution Type:</label>
-            <select id="typeFilter">
+            <select id="typeFilter" onchange="filterInstitutions()">
                 <option value="all">All Types</option>
                 <option value="tvet">TVET Centers</option>
                 <option value="hei">HEIs</option>
                 <option value="college">Colleges</option>
+                <option value="enterprise">Enterprises</option>
             </select>
         </div>
         
         <div class="filter-section">
             <label>Accreditation Status:</label>
-            <select id="statusFilter">
+            <select id="statusFilter" onchange="filterInstitutions()">
                 <option value="all">All Status</option>
                 <option value="accredited">Accredited</option>
                 <option value="pending">Pending Review</option>
@@ -343,9 +702,9 @@
         
         <div class="filter-section">
             <label>Province:</label>
-            <select id="provinceFilter">
+            <select id="provinceFilter" onchange="filterInstitutions()">
                 <option value="all">All Provinces</option>
-                <option value="cotabato-city">Cotabato City (Special Geographic Area)</option>
+                <option value="cotabato-city">Cotabato City</option>
                 <option value="maguindanao-del-norte">Maguindanao del Norte</option>
                 <option value="maguindanao-del-sur">Maguindanao del Sur</option>
                 <option value="lanao-del-sur">Lanao del Sur</option>
@@ -363,35 +722,64 @@
             </div>
             <div class="legend-item">
                 <div class="legend-color" style="background: #4CAF50;"></div>
-                <span>Universities</span>
+                <span>HEI</span>
             </div>
             <div class="legend-item">
                 <div class="legend-color" style="background: #FF9800;"></div>
                 <span>Colleges</span>
             </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #9C27B0;"></div>
+                <span>Enterprises</span>
+            </div>
         </div>
         
         <div class="stats">
-            <p><strong>Total Institutions:</strong> <span id="totalCount">0</span></p>
-            <p><strong>Accredited:</strong> <span id="accreditedCount">0</span></p>
-            <p><strong>Pending Review:</strong> <span id="pendingCount">0</span></p>
+            <p style="font-weight: 600; margin-bottom: 10px;">📈 Statistics</p>
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="number" id="totalCount">0</div>
+                    <div class="label">Total</div>
+                </div>
+                <div class="stat-box">
+                    <div class="number" id="accreditedCount">0</div>
+                    <div class="label">Accredited</div>
+                </div>
+                <div class="stat-box">
+                    <div class="number" id="pendingCount">0</div>
+                    <div class="label">Pending</div>
+                </div>
+                <div class="stat-box">
+                    <div class="number" id="expiredCount">0</div>
+                    <div class="label">Expired</div>
+                </div>
+            </div>
         </div>
     </div>
 
+    <div class="search-box">
+        <input type="text" id="searchInput" placeholder="🔍 Search institution name...">
+        <div class="search-results" id="searchResults"></div>
+    </div>
+
     <div id="map"></div>
+    <div id="listView"></div>
+
+    <div class="loading" id="loading">
+        <div class="spinner"></div>
+        <p style="text-align: center; margin-top: 10px;">Loading...</p>
+    </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
     <script>
-        // Initialize map - centered on BARMM region
         const map = L.map('map').setView([7.0, 124.5], 8);
 
-        // Add OpenStreetMap tiles
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '© OpenStreetMap contributors',
             maxZoom: 19
         }).addTo(map);
 
-        // Sample institutions data for BARMM region
+        // Sample institutions data
         const institutions = [
             {
                 name: "A4 College of Peace and Wisdom, Inc.",
@@ -399,14 +787,14 @@
                 lat: 7.191994504,
                 lng: 124.2348899,
                 address: "Gonzalo Street, Barangay RH-7, Cotabato City, Maguindanao",
-                province: "maguindanao-del-norte",
+                province: "cotabato-city",
                 status: "accredited",
                 accreditationDate: "July 4, 2022",
                 expiryDate: "July 5, 2027",
                 contactPerson: "Abdul Aziz A. Ali (President)",
                 contactNumber: "+63 936 773 4520",
                 email: "a4college2017@gmail.com",
-                coursesImage: "https://via.placeholder.com/320x200/4CAF50/ffffff?text=Agriculture%0AForestry%0AFisheries%0ANC+II"
+                coursesImage: "<table class='courses-table'><thead><tr><th>Program</th><th>Duration (hrs)</th><th>Program Reg. No.</th><th>Date Issued</th><th>Expiration Date</th></tr></thead><tbody><tr><td>Agricultural Crops Production NC II</td><td>336</td><td>2022198703AFFACP213033</td><td>July 4, 2022</td><td>July 5, 2027</td></tr><tr><td>Driving NC II</td><td>118</td><td>2022198703ALTDRV204034</td><td>July 4, 2022</td><td>July 5, 2027</td></tr><tr><td>Masonry NC II</td><td>181</td><td>2022198703CONMAS218035</td><td>July 4, 2022</td><td>July 5, 2027</td></tr><tr><td>Pest Management (Vegetables) NC II</td><td>312</td><td>2024198703AFFPMV207012</td><td>February 5, 2024</td><td>February 4, 2029</td></tr></tbody></table>"
             },
             {
                 name: "AGB Techsquad Corp.",
@@ -421,7 +809,7 @@
                 contactPerson: "Boysie A. Gila (President)",
                 contactNumber: "0917-723-9105",
                 email: "Agbtechsquadcorp@gmail.com",
-                coursesImage: "https://via.placeholder.com/320x200/2196F3/ffffff?text=Carpentry+NC+II"
+                coursesImage: `<table class='courses-table'><thead><tr><th>Program</th><th>Duration (hrs)</th><th>Program Reg. No.</th><th>Date Issued</th><th>Expiration Date</th></tr></thead><tbody><tr><td>Carpentry NC II</td><td>301</td><td>2022198703CONCAR218053</td><td>August 22, 2022</td><td>August 23, 2027</td></tr></tbody></table>`
             }
             ,
             {
@@ -437,7 +825,7 @@
                 contactPerson: "Al-Jubair A. Kamid (President/Head TVI)",
                 contactNumber: "9998854935",
                 email: "careers@akbposervice.net",
-                coursesImage: "https://via.placeholder.com/320x200/2196F3/ffffff?text=Contact+Center+Services+NC+II"
+                coursesImage: `<table class='courses-table'><thead><tr><th>Program</th><th>Duration (hrs)</th><th>Program Reg. No.</th><th>Date Issued</th><th>Expiration Date</th></tr></thead><tbody><tr><td>Contact Center Services NC II</td><td>144</td><td>2024198703ICTCCS214173</td><td>December 3, 2024</td><td>December 2, 2029</td></tr></tbody></table>`
             }
             ,
             {
@@ -453,7 +841,14 @@
                 contactPerson: "Engr. Michael M. Mustapha, MBA (President)",
                 contactNumber: "(064) 557-3056",
                 email: "atsc2013@yahoo.com",
-                coursesImage: "https://via.placeholder.com/320x200/FF9800/ffffff?text=Bookkeeping+NC+III"
+                coursesImage: `<table class='courses-table'><thead><tr><th>Program</th><th>Program Reg. No.</th><th>Date Issued</th><th>Expiration Date</th></tr></thead><tbody>
+                            <tr><td>Bookkeeping NC III</td><td>2022198703SOCBKP307066</td><td>February 15, 2024</td><td>February 14, 2029</td></tr>
+                            <tr><td>Computer Systems Servicing NC II</td><td>2022198703ELCCSS213067</td><td>February 15, 2024</td><td>February 14, 2029</td></tr>
+                            <tr><td>Electrical Installation and Maintenance NC II</td><td>2022198703ELCEIM215068</td><td>February 15, 2024</td><td>February 14, 2029</td></tr>
+                            <tr><td>Electronic Products Assembly and Servicing NC II</td><td>2022198703ELCEPA213069</td><td>February 15, 2024</td><td>February 14, 2029</td></tr>
+                            <tr><td>PV Systems Installation NC II</td><td>20221987038CONPVI208070</td><td>February 15, 2024</td><td>February 14, 2029</td></tr>
+                            <tr><td>Technical Drafting NC II</td><td>20231987CONTEC210077</td><td>December 22, 2023</td><td>December 21, 2028</td></tr>
+                            </tbody></table>`   
             },
             {
                 name: "BDA Inc.",
@@ -468,7 +863,7 @@
                 contactPerson: "Rhadzni M. Taalim, MDM (Executive Director)",
                 contactNumber: "(064) 557-3010",
                 email: "bangsamoroocmo18@gmail.com",
-                coursesImage: "https://via.placeholder.com/320x200/FF5722/ffffff?text=Values+Transformation+Training"
+                coursesImage: `<table class='courses-table'><thead><tr><th>Program</th><th>Duration (hrs)</th><th>Program Reg. No.</th><th>Date Issued</th><th>Expiration Date</th></tr></thead><tbody><tr><td>Values Transformation Training</td><td>24</td><td>20201987030005</td><td>July 5, 2024</td><td>July 4, 2029</td></tr></tbody></table>`
             },
             {
                 name: "Coland Systems Technology Incorporated",
@@ -483,7 +878,12 @@
                 contactPerson: "John Paul S. Canja (CSTI TESDA Program Head)",
                 contactNumber: "0917-723-9105",
                 email: "cstimain96@gmail.com",
-                coursesImage: "https://via.placeholder.com/320x200/2196F3/ffffff?text=Electrical+Installation+and+Maintenance+NC+II"
+                coursesImage: `<table class='courses-table'><thead><tr><th>Program</th><th>Duration (hrs)</th><th>Program Reg. No.</th><th>Date Issued</th><th>Expiration Date</th></tr></thead><tbody>
+                            <tr><td>Electrical Installation and Maintenance NC II</td><td>196</td><td>2022198703ELCEIM215058</td><td>February 15, 2024</td><td>February 14, 2029</td></tr>
+                            <tr><td>Masonry NC II</td><td>181</td><td>2023198703CONMAS218024</td><td>February 15, 2024</td><td>February 14, 2029</td></tr>
+                            <tr><td>Bread and Pastry Production NC II</td><td>141</td><td>20231987TRSBPP209078</td><td>December 22, 2023</td><td>December 21, 2028</td></tr>
+                            <tr><td>Carpentry NC II</td><td>301</td><td>2024198703CONCAR218007</td><td>January 31, 2024</td><td>January 30, 2029</td></tr>
+                            </tbody></table>`
             },
             {
                 name: "Cotabato City Manpower Development Center",
@@ -498,7 +898,12 @@
                 contactPerson: "Moheden R. Saribo (Administrator)",
                 contactNumber: "None indicated",
                 email: "None indicated",
-                coursesImage: "https://via.placeholder.com/320x200/FF5722/ffffff?text=Trainers+Methodology+Level+I"
+                coursesImage: `<table class='courses-table'><thead><tr><th>Program</th><th>Duration (hrs)</th><th>Program Reg. No.</th><th>Date Issued</th><th>Expiration Date</th></tr></thead><tbody>
+                            <tr><td>Trainers Methodology Level I (Trainer/Assessor)</td><td>264</td><td>2022198703TVTTML111065</td><td>February 15, 2024</td><td>February 14, 2029</td></tr>
+                            <tr><td>Carpentry NC II</td><td>301</td><td>2023198703CONCAR218017</td><td>February 15, 2024</td><td>February 14, 2029</td></tr>
+                            <tr><td>Driving NC II</td><td>118</td><td>2024198703ALTDRV204057</td><td>June 10, 2024</td><td>June 9, 2029</td></tr>
+                            <tr><td>Tile Setting NC II</td><td>181</td><td>2024198703CONTIL218071</td><td>June 10, 2024</td><td>June 9, 2029</td></tr>
+                            </tbody></table>`
             }
             ,
             {
@@ -514,7 +919,10 @@
                 contactPerson: "Cindy M. De Leon (President)",
                 contactNumber: "9551474351",
                 email: "dpocitesda@gmail.com",
-                coursesImage: "https://via.placeholder.com/320x200/FF9800/ffffff?text=Cookery+NC+II"
+                coursesImage: `<table class='courses-table'><thead><tr><th>Program</th><th>Duration (hrs)</th><th>Program Reg. No.</th><th>Date Issued</th><th>Expiration Date</th></tr></thead><tbody>
+                            <tr><td>Cookery NC II</td><td>316</td><td>2022198703TRSCOK214052</td><td>November 15, 2023</td><td>November 14, 2028</td></tr>
+                            <tr><td>Bread and Pastry Production NC II</td><td>141</td><td>2022198703TRSBPP209051</td><td>February 15, 2024</td><td>February 14, 2029</td></tr>
+                            </tbody></table>`
             },
             {
                 name: "Lee and RRJ Institute Inc.",
@@ -529,7 +937,12 @@
                 contactPerson: "Lernie P. Jumaani (President)",
                 contactNumber: "0917-701-0681",
                 email: "leeandrrjinc@gmail.com",
-                coursesImage: "https://via.placeholder.com/320x200/2196F3/ffffff?text=Driving+NC+II"
+                coursesImage: `<table class='courses-table'><thead><tr><th>Program</th><th>Duration (hrs)</th><th>Program Reg. No.</th><th>Date Issued</th><th>Expiration Date</th></tr></thead><tbody>
+                            <tr><td>Driving NC II</td><td>118</td><td>2022198703ALTDRV204036</td><td>October 16, 2023</td><td>October 15, 2028</td></tr>
+                            <tr><td>Bread and Pastry Production NC II</td><td>141</td><td>2024198703TRSBPP209008</td><td>January 31, 2024</td><td>January 30, 2029</td></tr>
+                            <tr><td>Security Services NC I</td><td>170</td><td>2024198703SOCSES105072</td><td>June 10, 2024</td><td>June 9, 2029</td></tr>
+                            <tr><td>Security Services NC II</td><td>223</td><td>2024198703SOCSES207073</td><td>June 10, 2024</td><td>June 9, 2029</td></tr>
+                            </tbody></table>`
             },
             {
                 name: "Mindanao Skills Language and Training Center, Inc.",
@@ -538,13 +951,15 @@
                 lng: 124.3034,
                 address: "R1/2F, Atty. Soyao Building, Quezon Avenue, Cotabato City 9600",
                 province: "cotabato-city",
-                status: "accredited",
+                status: "expired",
                 accreditationDate: "January 31, 2024",
                 expiryDate: "January 30, 2024",
                 contactPerson: "Ricky G. Tijon (President)",
                 contactNumber: "None indicated",
                 email: "None indicated",
-                coursesImage: "https://via.placeholder.com/320x200/4CAF50/ffffff?text=Korean+Language+and+Culture"
+                coursesImage: `<table class='courses-table'><thead><tr><th>Program</th><th>Duration (hrs)</th><th>Program Reg. No.</th><th>Date Issued</th><th>Expiration Date</th></tr></thead><tbody>
+                            <tr><td>Korean Language and Culture</td><td>100</td><td>202215380002</td><td>January 31, 2024</td><td>January 30, 2024</td></tr>
+                            </tbody></table>`
             }
             ,
             {
@@ -560,7 +975,9 @@
                 contactPerson: "SR. Caroline S. Capili, OP",
                 contactNumber: "(064)-421-5133",
                 email: "Ndhsmrh9@gmail.com",
-                coursesImage: "https://via.placeholder.com/320x200/FF9800/ffffff?text=Health+Care+Services+NC+II"
+                coursesImage: `<table class='courses-table'><thead><tr><th>Program</th><th>Duration (hrs)</th><th>Program Reg. No.</th><th>Date Issued</th><th>Expiration Date</th></tr></thead><tbody>
+                            <tr><td>Health Care Services NC II</td><td>996</td><td>2023198703HCSHCS205019</td><td>February 20, 2023</td><td>February 19, 2028</td></tr>
+                            </tbody></table>`
             },
             {
                 name: "Notre Dame-RVM College of Cotabato, Inc.",
@@ -575,7 +992,11 @@
                 contactPerson: "S. Maria Fe D. Gerodias, RVM (President)",
                 contactNumber: "064-421-2845",
                 email: "ndrvmcctechvoc@gmail.com",
-                coursesImage: "https://via.placeholder.com/320x200/FF9800/ffffff?text=Food+Processing+NC+II"
+                coursesImage: `<table class='courses-table'><thead><tr><th>Program</th><th>Duration (hrs)</th><th>Program Reg. No.</th><th>Date Issued</th><th>Expiration Date</th></tr></thead><tbody>
+                            <tr><td>Food Processing NC II</td><td>552</td><td>2020198703PFBFOP215048</td><td>February 15, 2024</td><td>February 14, 2029</td></tr>
+                            <tr><td>Bread and Pastry Production NC II</td><td>141</td><td>2024198703TRSBPP209009</td><td>January 31, 2024</td><td>January 30, 2029</td></tr>
+                            <tr><td>Housekeeping NC II</td><td>460</td><td>2024198703TRSHSK213010</td><td>January 31, 2024</td><td>January 30, 2029</td></tr>
+                            </tbody></table>`
             }
             ,
             {
@@ -591,7 +1012,13 @@
                 contactPerson: "Umer A. Abdulrasid (President)",
                 contactNumber: "9277038009",
                 email: "skecollegeinc.22@gmail.com",
-                coursesImage: "https://via.placeholder.com/320x200/4CAF50/ffffff?text=Agricultural+Crops+Production+NC+II"
+                coursesImage: `<table class='courses-table'><thead><tr><th>Program</th><th>Duration (hrs)</th><th>Program Reg. No.</th><th>Date Issued</th><th>Expiration Date</th></tr></thead><tbody>
+                            <tr><td>Agricultural Crops Production NC II</td><td>336</td><td>2022198703AFFACP213029</td><td>February 5, 2024</td><td>February 4, 2029</td></tr>
+                            <tr><td>Carpentry NC II</td><td>301</td><td>2022198703CONCAR218030</td><td>February 5, 2024</td><td>February 4, 2029</td></tr>
+                            <tr><td>Driving NC II</td><td>118</td><td>2022198703ALTDRV204031</td><td>February 5, 2024</td><td>February 4, 2029</td></tr>
+                            <tr><td>Masonry NC II</td><td>181</td><td>2022198703CONMAS218032</td><td>February 5, 2024</td><td>February 4, 2029</td></tr>
+                            <tr><td>Dressmaking NC II</td><td>275</td><td>2024198703GRMDRM205136</td><td>October 5, 2024</td><td>October 4, 2029</td></tr>
+                            </tbody></table>`
             }
             ,
             {
@@ -607,7 +1034,10 @@
                 contactPerson: "Dr. Cecilia Camello-Barroga (President)",
                 contactNumber: "(064) 421-1969",
                 email: "aimam281979@gmail.com",
-                coursesImage: "https://via.placeholder.com/320x200/FF9800/ffffff?text=Cookery+NC+II"
+                coursesImage: `<table class='courses-table'><thead><tr><th>Program</th><th>Duration (hrs)</th><th>Program Reg. No.</th><th>Date Issued</th><th>Expiration Date</th></tr></thead><tbody>
+                            <tr><td>Cookery NC II</td><td>316</td><td>2022198703TRSCOK214028</td><td>October 16, 2023</td><td>October 17, 2028</td></tr>
+                            <tr><td>Bread and Pastry Production NC II</td><td>141</td><td>20231987TRSBPP209079</td><td>December 22, 2023</td><td>December 23, 2028</td></tr>
+                            </tbody></table>`
             }
             ,
             {
@@ -623,7 +1053,11 @@
                 contactPerson: "Alhamde A. Kadtong (President)",
                 contactNumber: "0919-097-9883",
                 email: "Not indicated",
-                coursesImage: "https://via.placeholder.com/320x200/2196F3/ffffff?text=Carpentry+NC+II"
+                coursesImage: `<table class='courses-table'><thead><tr><th>Program</th><th>Duration (hrs)</th><th>Program Reg. No.</th><th>Date Issued</th><th>Expiration Date</th></tr></thead><tbody>
+                            <tr><td>Carpentry NC II</td><td>301</td><td>2024198703CONCAR218059</td><td>June 24, 2024</td><td>June 23, 2029</td></tr>
+                            <tr><td>Driving NC II</td><td>118</td><td>2024198703ALTDRV204060</td><td>June 24, 2024</td><td>June 23, 2029</td></tr>
+                            <tr><td>Masonry NC II</td><td>181</td><td>2024198703CONMAS218061</td><td>June 24, 2024</td><td>June 23, 2029</td></tr>
+                            </tbody></table>`
             }
             ,
             {
@@ -632,28 +1066,54 @@
                 lat: 7.20657,
                 lng: 124.231391,
                 address: "#7 Lot 7 Block 25, Federville Subdivision, Rosary Heights XI, Cotabato City, Maguindanao",
-                province: "maguindanao-del-norte",
+                province: "cotabato-city",
                 status: "accredited",
                 accreditationDate: "October 17, 2023",
                 expiryDate: "October 18, 2028",
                 contactPerson: "Vicky L. Silvano (President)",
                 contactNumber: "0997-376-0884 / 0953-498-5638",
                 email: "vc2jobs@gmail.com",
-                coursesImage: "https://via.placeholder.com/320x200/2196F3/ffffff?text=Bookkeeping+NC+III"
+                coursesImage: `<table class='courses-table'><thead><tr><th>Program</th><th>Duration (hrs)</th><th>Program Reg. No.</th><th>Date Issued</th><th>Expiration Date</th></tr></thead><tbody>
+                            <tr><td>Bookkeeping NC III</td><td>292</td><td>2022198703HCSBKK307049</td><td>October 17, 2023</td><td>October 18, 2028</td></tr>
+                            <tr><td>Driving NC II</td><td>118</td><td>2022198703ALTDRV204050</td><td>October 17, 2023</td><td>October 18, 2028</td></tr>
+                            <tr><td>Carpentry NC II</td><td>301</td><td>2023198703CONCAR218033</td><td>April 19, 2023</td><td>April 18, 2028</td></tr>
+                            <tr><td>Masonry NC II</td><td>181</td><td>2023198703CONMAS218034</td><td>April 19, 2023</td><td>April 18, 2028</td></tr>
+                            </tbody></table>`
+            },
+            {
+                name: "Academia De Tecnologia in Mindanao, Inc.",
+                type: "hei",
+                lat: 7.216975013,
+                lng: 124.2491247,
+                address: "4A Don Roman Vilo Street, Cotabato City, Maguindanao",
+                province: "cotabato-city",
+                status: "accredited",
+                accreditationDate: "October 16, 2023",
+                expiryDate: "October 17, 2028",
+                contactPerson: "Engr. Virgelio F. Fetiluna (Training Director)",
+                contactNumber: "(064) 552-0463/ 0917-706-4579",
+                email: "adtmindanao@gmail.com",
+                coursesImage: `<table class='courses-table'><thead><tr><th>Program</th><th>Duration (hrs)</th><th>Program Reg. No.</th><th>Date Issued</th><th>Expiration Date</th></tr></thead><tbody>
+                            <tr><td>Bread and Pastry Production NC II</td><td>141</td><td>2022198703TRSBPP209041</td><td>October 16, 2023</td><td>October 17, 2028</td></tr>
+                            <tr><td>Computer Systems Servicing NC II</td><td>280</td><td>2022198703ELCCSS213042</td><td>October 16, 2023</td><td>October 17, 2028</td></tr>
+                            <tr><td>Cookery NC II</td><td>316</td><td>2022198703TRSCOK214043</td><td>October 16, 2023</td><td>October 17, 2028</td></tr>
+                            <tr><td>Driving NC II</td><td>118</td><td>2022198703ALTDRV204044</td><td>October 16, 2023</td><td>October 17, 2028</td></tr>
+                            <tr><td>Electrical Installation and Maintenance NC II</td><td>196</td><td>2022198703ELCEIM215045</td><td>October 16, 2023</td><td>October 17, 2028</td></tr>
+                            <tr><td>Electronic Products Assembly and Servicing NC II</td><td>260</td><td>2022198703ELCEPA213046</td><td>October 16, 2023</td><td>October 17, 2028</td></tr>
+                            <tr><td>Electrical Wiring and Installation NC II</td><td>268</td><td>2022198703MEEEAW206047</td><td>October 16, 2023</td><td>October 17, 2028</td></tr>
+                            <tr><td>Plumbing NC II</td><td>202</td><td>2023198703CONPLB214036</td><td>May 15, 2023</td><td>May 14, 2028</td></tr>
+                            <tr><td>Dressmaking NC II</td><td>275</td><td>2024198703GRMDRM205013</td><td>May 2, 2024</td><td>May 1, 2029</td></tr>
+                            <tr><td>Agricultural Crops Production NC II</td><td>226</td><td>2024198703AFFAPP213062</td><td>July 5, 2024</td><td>July 4, 2029</td></tr>
+                            <tr><td>Construction Technology NC II</td><td>206</td><td>2023198703CONTEC210018</td><td>February 20, 2023</td><td>February 19, 2028</td></tr>
+                            </tbody></table>`
             }
         ];
 
         let markers = [];
         let currentMarkers = [];
+        let currentView = 'map';
 
-        // Create pulsing icon based on type
         const createPulsingIcon = (type) => {
-            const icons = {
-                'tvet': '🔧',
-                'hei': '🎓',
-                'college': '📚'
-            };
-            
             return L.divIcon({
                 className: `pulse-marker ${type}`,
                 html: '',
@@ -663,90 +1123,122 @@
             });
         };
 
-        // Get badge HTML based on status
         const getStatusBadge = (status) => {
             const badges = {
                 'accredited': '<span class="popup-badge badge-accredited">✓ ACCREDITED</span>',
-                'pending': '<span class="popup-badge badge-pending">⏳ PENDING REVIEW</span>',
+                'pending': '<span class="popup-badge badge-pending">⏳ PENDING</span>',
                 'expired': '<span class="popup-badge badge-expired">⚠ EXPIRED</span>'
             };
             return badges[status] || '';
         };
 
-        // Create popup content
-        const createPopupContent = (institution) => {
+        const createPopupContent = (inst) => {
+            const coursesHtml = inst.coursesImage && inst.coursesImage.toString().trim().toLowerCase().startsWith('http')
+                ? `<img src="${inst.coursesImage}" alt="Courses" style="max-width: 100%;">`
+                : `<div class="courses-text">${inst.coursesImage || 'N/A'}</div>`;
+
             return `
                 <div class="school-popup">
-                    <h3>${institution.name}</h3>
-                    ${getStatusBadge(institution.status)}
-                    <div class="popup-info"><strong>Type:</strong> ${institution.type.toUpperCase()}</div>
-                    <div class="popup-info"><strong>Address:</strong> ${institution.address}</div>
-                    <div class="popup-info"><strong>Province:</strong> ${institution.province.replace('-', ' ').toUpperCase()}</div>
-                    <div class="popup-info"><strong>Accreditation Date:</strong> ${institution.accreditationDate}</div>
-                    <div class="popup-info"><strong>Expiry Date:</strong> ${institution.expiryDate}</div>
-                    <div class="popup-info"><strong>Contact Person:</strong> ${institution.contactPerson}</div>
-                    <div class="popup-info"><strong>Contact Number:</strong> ${institution.contactNumber}</div>
-                    <div class="popup-info"><strong>Email:</strong> ${institution.email}</div>
-                    <p style="margin: 12px 0 5px 0; font-weight: 600; color: #1e3c72;">Courses/Programs Offered:</p>
-                    <img src="${institution.coursesImage}" alt="${institution.name} Courses" class="courses-image">
+                    <h3>${inst.name}</h3>
+                    ${getStatusBadge(inst.status)}
+                    <div class="popup-info"><strong>Type:</strong> ${inst.type.toUpperCase()}</div>
+                    <div class="popup-info"><strong>Address:</strong> ${inst.address}</div>
+                    <div class="popup-info"><strong>Expiry:</strong> ${inst.expiryDate}</div>
+                    <div class="popup-info"><strong>Contact:</strong> ${inst.contactPerson}</div>
+                    <div class="popup-info"><strong>Phone:</strong> ${inst.contactNumber}</div>
+                    <div class="popup-info"><strong>Email:</strong> ${inst.email}</div>
+                    <p style="margin: 12px 0 5px 0; font-weight: 600; color: #1e3c72;">Programs:</p>
+                    ${coursesHtml}
                     <div class="action-buttons">
-                        <button class="btn btn-primary" onclick="alert('View full accreditation report for ${institution.name}')">📄 View Report</button>
-                        <button class="btn btn-secondary" onclick="alert('Download certificate for ${institution.name}')">📥 Certificate</button>
+                        <button class="btn btn-primary" onclick="viewReport('${inst.name}')">📄 Report</button>
+                        <button class="btn btn-secondary" onclick="downloadCert('${inst.name}')">📥 Cert</button>
                     </div>
                 </div>
             `;
         };
 
-        // Add markers to map
+        function isExpiringSoon(expiryDate) {
+            const expiry = new Date(expiryDate);
+            const today = new Date();
+            const diffDays = Math.ceil((expiry - today) / (1000 * 60 * 60 * 24));
+            return diffDays <= 90 && diffDays >= 0;
+        }
+
         const addMarkers = (institutionsToShow) => {
             // Clear existing markers
             currentMarkers.forEach(marker => map.removeLayer(marker));
             currentMarkers = [];
 
-            // Add new markers
-            institutionsToShow.forEach(institution => {
-                const marker = L.marker([institution.lat, institution.lng], { 
-                    icon: createPulsingIcon(institution.type)
+            institutionsToShow.forEach(inst => {
+                const marker = L.marker([inst.lat, inst.lng], { 
+                    icon: createPulsingIcon(inst.type)
                 })
                 .addTo(map)
-                .bindPopup(createPopupContent(institution), {
+                .bindPopup(createPopupContent(inst), {
                     maxWidth: 400,
                     minWidth: 350
+                })
+                .bindTooltip(inst.name, {
+                    permanent: false,
+                    direction: 'top',
+                    offset: [0, -10],
+                    className: 'school-tooltip'
                 });
 
                 currentMarkers.push(marker);
-                markers.push({ marker, data: institution });
+                markers.push({ marker, data: inst });
             });
-
             updateStats(institutionsToShow);
+            updateListView(institutionsToShow);
         };
 
-        // Update statistics
         const updateStats = (institutionsToShow) => {
             document.getElementById('totalCount').textContent = institutionsToShow.length;
             document.getElementById('accreditedCount').textContent = 
                 institutionsToShow.filter(i => i.status === 'accredited').length;
             document.getElementById('pendingCount').textContent = 
                 institutionsToShow.filter(i => i.status === 'pending').length;
+            document.getElementById('expiredCount').textContent = 
+                institutionsToShow.filter(i => i.status === 'expired').length;
         };
 
-        // Filter institutions
+        const updateListView = (institutionsToShow) => {
+            const listView = document.getElementById('listView');
+            listView.innerHTML = institutionsToShow.map(inst => `
+                <div class="institution-card">
+                    <h3>${inst.name}</h3>
+                    ${getStatusBadge(inst.status)}
+                    <p><strong>Type:</strong> ${inst.type.toUpperCase()}</p>
+                    <p><strong>Address:</strong> ${inst.address}</p>
+                    <p><strong>Province:</strong> ${inst.province.replace(/-/g, ' ').toUpperCase()}</p>
+                    <p><strong>Contact:</strong> ${inst.contactNumber}</p>
+                    <p><strong>Email:</strong> ${inst.email}</p>
+                    <p><strong>Expires:</strong> ${inst.expiryDate}</p>
+                    <div class="card-actions">
+                        <button class="card-btn card-btn-primary" onclick="zoomToInstitution('${inst.name}')">📍 View on Map</button>
+                        <button class="card-btn card-btn-secondary" onclick="viewReport('${inst.name}')">📄 Report</button>
+                    </div>
+                </div>
+            `).join('');
+        };
+
         const filterInstitutions = () => {
             const typeFilter = document.getElementById('typeFilter').value;
             const statusFilter = document.getElementById('statusFilter').value;
             const provinceFilter = document.getElementById('provinceFilter').value;
+            const expiringOnly = document.getElementById('expiringFilter').checked;
 
             const filtered = institutions.filter(inst => {
                 const typeMatch = typeFilter === 'all' || inst.type === typeFilter;
                 const statusMatch = statusFilter === 'all' || inst.status === statusFilter;
                 const provinceMatch = provinceFilter === 'all' || inst.province === provinceFilter;
-                return typeMatch && statusMatch && provinceMatch;
+                const expiringMatch = !expiringOnly || isExpiringSoon(inst.expiryDate);
+                return typeMatch && statusMatch && provinceMatch && expiringMatch;
             });
 
             addMarkers(filtered);
         };
 
-        // Search functionality
         const searchInput = document.getElementById('searchInput');
         const searchResults = document.getElementById('searchResults');
 
@@ -766,11 +1258,7 @@
                 div.className = 'search-result-item';
                 div.textContent = inst.name;
                 div.onclick = () => {
-                    map.setView([inst.lat, inst.lng], 15);
-                    const marker = markers.find(m => m.data.name === inst.name);
-                    if (marker) {
-                        marker.marker.openPopup();
-                    }
+                    zoomToInstitution(inst.name);
                     searchResults.innerHTML = '';
                     searchInput.value = '';
                 };
@@ -778,19 +1266,106 @@
             });
         });
 
-        // Event listeners for filters
-        document.getElementById('typeFilter').addEventListener('change', filterInstitutions);
-        document.getElementById('statusFilter').addEventListener('change', filterInstitutions);
-        document.getElementById('provinceFilter').addEventListener('change', filterInstitutions);
+        function switchView(view) {
+            currentView = view;
+            if (view === 'map') {
+                document.getElementById('map').style.display = 'block';
+                document.getElementById('listView').style.display = 'none';
+                document.getElementById('mapViewBtn').classList.add('active');
+                document.getElementById('listViewBtn').classList.remove('active');
+            } else {
+                document.getElementById('map').style.display = 'none';
+                document.getElementById('listView').style.display = 'block';
+                document.getElementById('mapViewBtn').classList.remove('active');
+                document.getElementById('listViewBtn').classList.add('active');
+            }
+        }
 
-        // Initial load
+        function togglePanel() {
+            const panel = document.getElementById('controlPanel');
+            panel.classList.toggle('collapsed');
+            const btn = panel.querySelector('.toggle-panel');
+            btn.textContent = panel.classList.contains('collapsed') ? '▶' : '◀';
+        }
+
+        function zoomToInstitution(name) {
+            const inst = institutions.find(i => i.name === name);
+            if (inst) {
+                if (currentView === 'list') switchView('map');
+                map.setView([inst.lat, inst.lng], 16);
+                const marker = markers.find(m => m.data.name === name);
+                if (marker) {
+                    setTimeout(() => marker.marker.openPopup(), 300);
+                }
+            }
+        }
+
+        function exportToCSV() {
+            const typeFilter = document.getElementById('typeFilter').value;
+            const statusFilter = document.getElementById('statusFilter').value;
+            const provinceFilter = document.getElementById('provinceFilter').value;
+
+            const filtered = institutions.filter(inst => {
+                const typeMatch = typeFilter === 'all' || inst.type === typeFilter;
+                const statusMatch = statusFilter === 'all' || inst.status === statusFilter;
+                const provinceMatch = provinceFilter === 'all' || inst.province === provinceFilter;
+                return typeMatch && statusMatch && provinceMatch;
+            });
+
+            const headers = ['Name', 'Type', 'Address', 'Province', 'Status', 'Contact Person', 'Contact Number', 'Email', 'Accreditation Date', 'Expiry Date'];
+            const csvContent = [
+                headers.join(','),
+                ...filtered.map(inst => [
+                    `"${inst.name}"`,
+                    inst.type,
+                    `"${inst.address}"`,
+                    inst.province,
+                    inst.status,
+                    `"${inst.contactPerson}"`,
+                    inst.contactNumber,
+                    inst.email,
+                    inst.accreditationDate,
+                    inst.expiryDate
+                ].join(','))
+            ].join('\n');
+
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `BARMM_TESD_Institutions_${new Date().toISOString().split('T')[0]}.csv`;
+            a.click();
+            window.URL.revokeObjectURL(url);
+        }
+
+        function shareLocation() {
+            const url = window.location.href;
+            if (navigator.share) {
+                navigator.share({
+                    title: 'BARMM TESD Accreditation Map',
+                    text: 'Check out this accreditation map',
+                    url: url
+                });
+            } else {
+                navigator.clipboard.writeText(url);
+                alert('Link copied to clipboard!');
+            }
+        }
+
+        function viewReport(name) {
+            alert(`View full accreditation report for: ${name}`);
+        }
+
+        function downloadCert(name) {
+            alert(`Download certificate for: ${name}`);
+        }
+
+        // Initialize
         addMarkers(institutions);
-
-        // Fit map to show all markers
-        const group = L.featureGroup(
-            institutions.map(inst => L.marker([inst.lat, inst.lng]))
-        );
-        map.fitBounds(group.getBounds().pad(0.1));
+        if (institutions.length > 0) {
+            const group = new L.featureGroup(currentMarkers);
+            map.fitBounds(group.getBounds().pad(0.1));
+        }
     </script>
 </body>
 </html>
