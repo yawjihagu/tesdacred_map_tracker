@@ -813,6 +813,18 @@
             maxZoom: 19
         }).addTo(map);
 
+        // ✅ Add Province Coordinates HERE (right after map is created)
+        const provinceCenters = {
+            "cotabato-city": { lat: 7.2047, lng: 124.2383, zoom: 12 },
+            "maguindanao-del-norte": { lat: 7.3000, lng: 124.2500, zoom: 10 },
+            "maguindanao-del-sur": { lat: 6.8600, lng: 124.4400, zoom: 10 },
+            "lanao-del-sur": { lat: 7.9300, lng: 124.3300, zoom: 10 },
+            "basilan": { lat: 6.6000, lng: 122.0000, zoom: 10 },
+            "sulu": { lat: 6.0400, lng: 121.0000, zoom: 10 },
+            "tawi-tawi": { lat: 5.1330, lng: 120.0500, zoom: 10 }
+        };
+
+
         // Sample institutions data
         const institutions = [
             {
@@ -1691,6 +1703,24 @@
             document.getElementById('expiredCount').textContent = 
                 institutionsToShow.filter(i => i.status === 'expired').length;
         };
+
+        document.getElementById("provinceFilter").addEventListener("change", function () {
+            const selected = this.value;
+
+            if (selected === "all") {
+                // Reset to full BARMM view
+                map.setView([7.0, 124.0], 8);
+                return;
+            }
+
+            if (provinceCenters[selected]) {
+                const p = provinceCenters[selected];
+                map.setView([p.lat, p.lng], p.zoom, {
+                    animate: true,
+                    duration: 1.2
+                });
+            }
+        });
 
         const updateListView = (institutionsToShow) => {
             const listView = document.getElementById('listView');
