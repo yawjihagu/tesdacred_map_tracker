@@ -508,7 +508,7 @@
             width: 100%;
             border-collapse: collapse;
             margin-top: 6px;
-            font-size: 11px;
+            font-size: 10px;
         }
 
         .courses-text table.courses-table th,
@@ -812,6 +812,18 @@
             attribution: '© OpenStreetMap contributors',
             maxZoom: 19
         }).addTo(map);
+
+        // ✅ Add Province Coordinates HERE (right after map is created)
+        const provinceCenters = {
+            "cotabato-city": { lat: 7.2047, lng: 124.2383, zoom: 12 },
+            "maguindanao-del-norte": { lat: 7.3000, lng: 124.2500, zoom: 10 },
+            "maguindanao-del-sur": { lat: 6.8600, lng: 124.4400, zoom: 10 },
+            "lanao-del-sur": { lat: 7.9300, lng: 124.3300, zoom: 10 },
+            "basilan": { lat: 6.6000, lng: 122.0000, zoom: 10 },
+            "sulu": { lat: 6.0400, lng: 121.0000, zoom: 10 },
+            "tawi-tawi": { lat: 5.1330, lng: 120.0500, zoom: 10 }
+        };
+
 
         // Sample institutions data
         const institutions = [
@@ -1596,6 +1608,82 @@
                 coursesImage: `<table class='courses-table'><thead><tr><th>Program</th><th>Duration (hrs)</th><th>Program Reg. No.</th><th>Date Issued</th><th>Expiration Date</th></tr></thead><tbody>
                             <tr><td>Security Services NC II</td><td>223</td><td>20251970SOCSES207037</td><td>October 23, 2025</td><td>October 22, 2030</td></tr>
                             </tbody></table>`
+            },
+            // Here Starts the Basilan Institutions
+            {
+                name: "Badja Institute of Islamic Teaching, Inc.",
+                type: "tvet",
+                lat: 6.552185,
+                lng: 122.150494,
+                address: "Badja, Tipo-Tipo, Basilan",
+                province: "basilan",
+                status: "accredited",
+                accreditationDate: "December 18, 2024",
+                expiryDate: "December 19, 2028",
+                contactPerson: "Abdulmajid Kawilil (President)",
+                contactNumber: "None indicated",
+                email: "",
+                coursesImage: `<table class='courses-table'><thead><tr><th>Program</th><th>Duration (hrs)</th><th>Program Reg. No.</th><th>Date Issued</th><th>Expiration Date</th></tr></thead><tbody>
+                            <tr><td>Bread and Pastry Production NC II</td><td>141</td><td>20211907TRSBPP209034</td><td>December 18, 2023</td><td>December 19, 2028</td></tr>
+                            <tr><td>Dressmaking NC II</td><td>275</td><td>20211907GRMDRM205035</td><td>December 18, 2023</td><td>December 19, 2028</td></tr>
+                            </tbody></table>`
+            },
+            {
+                name: "Basilan Skills Development Academy, Inc.",
+                type: "tvet",
+                lat: 6.6532383,
+                lng: 122.1513283,
+                address: "Sayugan Lamitan City, Basilan",
+                province: "basilan",
+                status: "accredited",
+                accreditationDate: "November 20, 2023",
+                expiryDate: "November 21, 2028",
+                contactPerson: "Isniraiyam D. Escandar (President)",
+                contactNumber: "09062540336/ 09051738935",
+                email: "basda.edu@gmail.com",
+                coursesImage: `<table class='courses-table'><thead><tr><th>Program</th><th>Duration (hrs)</th><th>Program Reg. No.</th><th>Date Issued</th><th>Expiration Date</th></tr></thead><tbody>
+                            <tr><td>Agricultural Crops Production NC I</td><td>302</td><td>20121907AFFACP105032</td><td>May 09, 2024</td><td>May 08, 2028</td></tr>
+                            <tr><td>Bread and Pastry Production NC II</td><td>141</td><td>20151907TRSBPP209045</td><td>November 20, 2023</td><td>November 21, 2028</td></tr>
+                            <tr><td>Masonry NC II</td><td>181</td><td>20211907CONMAS218085</td><td>November 20, 2023</td><td>November 21, 2028</td></tr>
+                            </tbody></table>`
+            },
+            {
+                name: "Concerned Alliance of Professionals and Students, Inc.",
+                type: "tvet",
+                lat: 6.485713313,
+                lng: 121.9736664,
+                address: "Basak, Sumusip, Basilan",
+                province: "basilan",
+                status: "accredited",
+                accreditationDate: "January 17, 2024",
+                expiryDate: "January 18, 2029",
+                contactPerson: "Harisul T. Samanul (President)",
+                contactNumber: "09279371553",
+                email: "None indicated",
+                coursesImage: `<table class='courses-table'><thead><tr><th>Program</th><th>Duration (hrs)</th><th>Program Reg. No.</th><th>Date Issued</th><th>Expiration Date</th></tr></thead><tbody>
+                            <tr><td>Masonry NC II</td><td>181</td><td>20191907CONMAS218125</td><td>January 17, 2024</td><td>January 18, 2029</td></tr>
+                            <tr><td>Shielded Metal Arc Welding (SMAW) NC II</td><td>268</td><td>20191907MEEEAW206126</td><td>January 17, 2024</td><td>January 18, 2029</td></tr>
+                            </tbody></table>`
+            },
+            {
+                name: "Hardam Furigay Colleges Foundation Inc.",
+                type: "HEI",
+                lat: 6.660194926,
+                lng: 122.1407594,
+                address: "Quezon Blvd., Lamitan City, Basilan",
+                province: "basilan",
+                status: "accredited",
+                accreditationDate: "December 18, 2023",
+                expiryDate: "December 19, 2028",
+                contactPerson: "Inee M. Flores (President)",
+                contactNumber: "(062) 991-7084/ 0908-862-859",
+                email: "None indicated",
+                coursesImage: `<table class='courses-table'><thead><tr><th>Program</th><th>Duration (hrs)</th><th>Program Reg. No.</th><th>Date Issued</th><th>Expiration Date</th></tr></thead><tbody>
+                            <tr><td>Computer Systems Servicing NC II</td><td>280</td><td>20171907ELCCSS213011</td><td>December 18, 2023</td><td>December 19, 2028</td></tr>
+                            <tr><td>Food and Beverage Services NC II</td><td>356</td><td>20171907TRSFBS213029</td><td>December 18, 2023</td><td>December 19, 2028</td></tr>
+                            <tr><td>Bread and Pastry Production NC II</td><td>141</td><td>20171907TRSBPP209071</td><td>December 18, 2023</td><td>December 19, 2028</td></tr>
+                            <tr><td>Cookery NC II</td><td>316</td><td>20171907TRSCOK214072</td><td>December 18, 2023</td><td>December 19, 2028</td></tr>
+                            </tbody></table>`
             }
         ];
 
@@ -1691,6 +1779,24 @@
             document.getElementById('expiredCount').textContent = 
                 institutionsToShow.filter(i => i.status === 'expired').length;
         };
+
+        document.getElementById("provinceFilter").addEventListener("change", function () {
+            const selected = this.value;
+
+            if (selected === "all") {
+                // Reset to full BARMM view
+                map.setView([7.0, 124.0], 8);
+                return;
+            }
+
+            if (provinceCenters[selected]) {
+                const p = provinceCenters[selected];
+                map.setView([p.lat, p.lng], p.zoom, {
+                    animate: true,
+                    duration: 1.2
+                });
+            }
+        });
 
         const updateListView = (institutionsToShow) => {
             const listView = document.getElementById('listView');
