@@ -410,11 +410,8 @@
             const userData = localStorage.getItem('barmm_user') || sessionStorage.getItem('barmm_user');
             if (userData) {
                 const user = JSON.parse(userData);
-                if (confirm(`Welcome back, ${user.username}! Would you like to continue to the map?`)) {
-                    // Redirect to map
-                    alert('Redirecting to map system...');
-                    // window.location.href = 'map.html';
-                }
+                // Automatically redirect to map if already logged in
+                window.location.href = 'index.html';
             }
         });
 

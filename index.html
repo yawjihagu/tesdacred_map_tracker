@@ -701,6 +701,7 @@
             <button class="header-btn" onclick="exportToCSV()">📥 Export CSV</button>
             <button class="header-btn" onclick="window.print()">🖨️ Print</button>
             <button class="header-btn" onclick="shareLocation()">🔗 Share</button>
+            <button class="header-btn" onclick="logout()" style="background: #dc3545; color: white;">🚪 Logout</button>
         </div>
     </div>
 
@@ -806,6 +807,27 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
     <script>
+        // Check authentication before loading the page
+        (function() {
+            const userData = localStorage.getItem('barmm_user') || sessionStorage.getItem('barmm_user');
+            if (!userData) {
+                // No user session found, redirect to login
+                window.location.href = 'login.html';
+                return;
+            }
+            // Optional: Parse and validate user data
+            try {
+                const user = JSON.parse(userData);
+                console.log('User authenticated:', user.username);
+            } catch (e) {
+                // Invalid session data, redirect to login
+                localStorage.removeItem('barmm_user');
+                sessionStorage.removeItem('barmm_user');
+                window.location.href = 'login.html';
+                return;
+            }
+        })();
+
         const map = L.map('map').setView([7.0, 124.5], 8);
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -2558,6 +2580,16 @@
             } else {
                 navigator.clipboard.writeText(url);
                 alert('Link copied to clipboard!');
+            }
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                // Clear all session data
+                localStorage.removeItem('barmm_user');
+                sessionStorage.removeItem('barmm_user');
+                // Redirect to login page
+                window.location.href = 'login.html';
             }
         }
 
