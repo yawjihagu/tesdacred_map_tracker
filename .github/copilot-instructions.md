@@ -47,111 +47,257 @@ const provinceCenters = {
 ## Core Features & Implementation
 
 ### Map Markers & Styling
-- **Color-coded by type**: TVET (blue #2196F3), HEI (green #4CAF50), College (orange #FF9800), Enterprise (purple #9C27B0)
-- **Pulsing animations**: CSS keyframe animations (`@keyframes pulse-blue`, etc.)
-- **Interactive popups**: Display institution details with embedded HTML tables for courses
+**Color scheme** (defined in CSS `@keyframes` and `.pulse-marker` classes):
+- TVET: Blue #2196F3 (`pulse-blue` animation)
+- HEI: Green #4CAF50 (`pulse-green`)
+- College: Orange #FF9800 (`pulse-orange`)
+- Enterprise: Purple #9C27B0 (`pulse-purple`)
+
+**Marker creation** - `createPulsingIcon(type)` function uses Leaflet divIcons:
+```javascript
+L.divIcon({
+  className: `pulse-marker ${type}`,  // Type drives CSS animation
+  iconSize: [30, 30],
+  iconAnchor: [15, 15]
+})
+```
+
+**Popup content** - `createPopupContent(inst)` builds HTML with:
+- Status badge (colored pill)
+- Contact info
+- Embedded `coursesImage` table (HTML string rendered directly)
+- Action buttons (Report/Certificate - currently alert placeholders)
 
 ### Filtering System
-Four simultaneous filters implemented in `filterInstitutions()` function:
-1. **Institution Type** - TVET/HEI/College/Enterprise
-2. **Accreditation Status** - Accredited/Pending/Expired
-3. **Province** - 7 provinces in BARMM region
-4. **Expiring Soon** - Checkbox for 90-day warning (uses `Date` comparison)
+`filterInstitutions()` applies 4 simultaneous filters:
+1. **Type** (`#typeFilter`) - all/tvet/hei/college/enterprise
+2. **Status** (`#statusFilter`) - all/accredited/pending/expired
+3. **Province** (`#provinceFilter`) - all + 7 provinces (kebab-case)
+4. **Expiring Soon** (`#expiringFilter`) - `isExpiringSoon()` checks `<= 90 days`
+
+**Critical**: All filters use exact string matching (case-sensitive for status/type)
 
 ### Authentication (`login.html`)
-- **Demo credentials** hardcoded in `validUsers` array
-- Session storage: `localStorage` (remember me) or `sessionStorage`
-- Redirects to `ccdomap.html` (should reference `index.html`)
+**Demo credentials** (`validUsers` array ~line 230):
+```javascript
+{ username: 'admin', password: 'admin123', role: 'Administrator' }
+{ username: 'user', password: 'user123', role: 'User' }
+{ username: 'tesd', password: 'tesd2024', role: 'TESD Staff' }
+```
+
+**Session storage**: 
+- `localStorage` if "remember me" checked
+- `sessionStorage` otherwise
+- Both store JSON: `{username, role, loginTime}`
+
+**Known bug**: Redirects to `'ccdomap.html'` (non-existent) - should be `'index.html'`
 
 ## Common Development Tasks
 
 ### Adding New Institutions
-1. Add object to `institutions` array in `index.html` (around line 900)
-2. Use existing institution as template
-3. Required fields: `name`, `type`, `lat`, `lng`, `province`, `status`, dates
-4. Format `coursesImage` as HTML `<table class='courses-table'>` with proper structure
+1. **Locate data array**: `index.html` ~line 900-2500 (`const institutions = [...]`)
+2. **Copy existing entry** as template (ensure all fields present)
+3. **Required fields**:
+   - `name`, `type`, `lat`, `lng`, `address`, `province`, `status`
+   - `accreditationDate`, `expiryDate` (must be parseable by `new Date()`)
+   - `contactPerson`, `contactNumber`, `email`
+   - `coursesImage` - HTML string with `<table class='courses-table'>` structure
+4. **Critical validations**:
+   - `type` must be: tvet, hei, college, or enterprise (lowercase)
+   - `status` must be: accredited, pending, or expired (lowercase)
+   - `province` must match key in `provinceCenters` (kebab-case)
+   - Coordinates must be within BARMM bounds (lat: 4.8-8.1, lng: 119.5-125.0)
 
 ### Updating Provinces
-- Modify `provinceCenters` object (line ~895) when adding new provinces
-- Add corresponding `<option>` to `#provinceFilter` dropdown (line ~130)
-- Update legend colors if adding institution types
+**Three files to modify**:
+1. `provinceCenters` object (~line 895) - add `{lat, lng, zoom}`
+2. `#provinceFilter` dropdown (~line 130) - add `<option value="key">Display Name</option>`
+3. Test navigation: Selecting province should pan/zoom to center
+
+**Note**: Province keys use kebab-case (e.g., `"maguindanao-del-norte"`)
+
+### Updating Login Credentials
+**Location**: `login.html` ~line 230 (`validUsers` array)
+**Format**: `{ username: 'string', password: 'string', role: 'string' }`
+**Warning**: Plaintext passwords - this is demo auth only, not production-secure
 
 ### Debugging Map Issues
-- Check browser console for Leaflet errors
-- Verify coordinates are valid (lat/lng within Philippines bounds)
-- Ensure `status` values match exactly: "accredited", "pending", "expired"
-- Test with collapsed control panel (`control-panel.collapsed` class)
+**Common problems**:
+1. **Markers not showing**: Check console for Leaflet errors, verify `lat`/`lng` are numbers
+2. **Filters not working**: Ensure exact string match (lowercase, no typos)
+3. **Popup HTML broken**: Escape quotes in `coursesImage` table HTML
+4. **Province navigation fails**: Verify key in `provinceCenters` matches `institution.province`
+5. **Expiry filter wrong**: Check date format is `"Month Day, Year"` (e.g., `"July 4, 2022"`)
 
 ## Styling Conventions
 
-### CSS Structure (Embedded in `<style>`)
-- **Utility-first approach** - All styles in single `<style>` block per file
-- **Gradient theme**: Primary color `#1e3c72`, secondary `#2a5298`
-- **Responsive breakpoints**: `@media (max-width: 768px)` for mobile
-- **Print styles**: Hide controls with `@media print`
+### CSS Architecture (Embedded `<style>` blocks)
+**No external CSS files** - all styles inline in each HTML file
 
-### Component Patterns
+**Color palette**:
+- Primary: `#1e3c72` (dark blue)
+- Secondary: `#2a5298` (lighter blue)
+- Gradients: `linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)`
+
+**Key CSS patterns**:
 ```css
-/* Header with logo + title */
-.header { display: flex; gap: 12px; background: linear-gradient(...); }
-
-/* Collapsible panel (control-panel) */
+/* Collapsible control panel */
 .control-panel.collapsed > *:not(.toggle-panel) { display: none; }
 
-/* Map markers with pulse */
+/* Pulsing map markers */
 .pulse-marker.tvet { animation: pulse-blue 2s infinite; }
+
+/* Status badges */
+.badge-accredited { background: #4CAF50; }  /* Green */
+.badge-pending { background: #FF9800; }      /* Orange */
+.badge-expired { background: #f44336; }      /* Red */
 ```
 
-## Deployment
+**Responsive breakpoint**: `@media (max-width: 768px)` for mobile layout
 
-### GitHub Pages Configuration
-- Deploys from `main` branch via `.github/workflows/static.yml`
-- Entire repository published as-is (no build step)
-- Image asset: `mbhte logo.png` must be in root directory
-- Access at: `https://yawjihagu.github.io/tesdacred_map_tracker/`
+**Print styles**: `@media print` hides `.control-panel` and `.header-actions`
 
-### File References
-- **Fix login redirect**: Change `'ccdomap.html'` to `'index.html'` in `login.html` (line ~265)
-- All asset paths are relative (no `/` prefix needed for same-directory files)
+## Deployment & Workflows
 
-## Data Maintenance
+### GitHub Pages (Static Hosting)
+**Workflow file**: `.github/workflows/static.yml` (+ duplicate variants static1/2/3.yml)
+- Deploys from `main` branch on every push
+- No build step - publishes raw HTML/CSS/JS
+- Live URL: `https://yawjihagu.github.io/tesdacred_map_tracker/`
 
-### Accreditation Expiry Logic
-Calculated in `filterInstitutions()`:
+**Critical asset**: `mbhte logo.png` must be in repository root (referenced by both HTML files)
+
+**Known issues**:
+1. Login page redirects to non-existent `'ccdomap.html'` - should be `'index.html'`
+2. Multiple workflow files (static.yml, static1-3.yml) - likely only static.yml is active
+
+### Local Development
+**No build process** - just open files in browser:
+1. Open `login.html` in browser
+2. Use credentials: `admin`/`admin123` or `tesd`/`tesd2024`
+3. Redirects to index.html (if running via file:// protocol, may need local server for session storage)
+
+**For local testing**: `python3 -m http.server 8000` or `npx serve`
+
+## Data Flows & Key Functions
+
+### Filtering Logic (`filterInstitutions()`)
+**Called by**: All filter dropdown `onchange` events + checkbox
+**Process**:
+1. Reads 4 filter values (type, status, province, expiring)
+2. Filters `institutions` array with `Array.filter()` - all conditions must pass
+3. Calls `addMarkers(filtered)` to update map
+4. Updates stats counters via `updateStats(filtered)`
+
+**Expiry calculation** (`isExpiringSoon()`):
 ```javascript
-const expiryDate = new Date(institution.expiryDate);
-const daysUntilExpiry = Math.ceil((expiryDate - today) / (1000 * 60 * 60 * 24));
+const diffDays = Math.ceil((new Date(expiryDate) - new Date()) / (1000 * 60 * 60 * 24));
+return diffDays <= 90 && diffDays >= 0;
 ```
-Institutions expiring in <90 days highlighted when "expiring soon" checked.
 
-### Statistics Calculation
-Real-time counts updated on filter changes:
-- `#totalCount` - Visible institutions
-- `#accreditedCount`, `#pendingCount`, `#expiredCount` - By status
-- Located in control panel stats grid
+### Marker Management
+**Rendering cycle**:
+1. `addMarkers(institutions)` - clears old markers, creates new ones
+2. `createPulsingIcon(type)` - generates Leaflet divIcon with CSS class
+3. `createPopupContent(inst)` - builds HTML popup string
+4. Binds popup + tooltip to each marker
 
-## Common Pitfalls
+**Current markers tracking**: `currentMarkers` array (for cleanup on re-filter)
 
-1. **Hardcoded data only** - No database or API; all changes require code edits
-2. **Date format**: Must be parseable by JavaScript `Date()` constructor (e.g., "July 4, 2022")
-3. **Province filter keys**: Must match institution `province` field exactly (kebab-case)
-4. **Table HTML in strings**: Must escape quotes properly in `coursesImage` field
-5. **Login page redirect**: Currently points to non-existent `ccdomap.html`
+### Statistics (`updateStats()`)
+Real-time counts in control panel:
+- `#totalCount` - `institutionsToShow.length`
+- `#accreditedCount` - `filter(i => i.status === 'accredited').length`
+- `#pendingCount`, `#expiredCount` - same pattern
+
+### Search (`#searchInput` listener)
+**Triggers**: On `input` event (live search)
+**Behavior**:
+- Minimum 2 characters
+- Searches `name` and `address` fields (case-insensitive)
+- Displays results in `#searchResults` dropdown
+- Clicking result calls `zoomToInstitution(name)` and opens popup
+
+## Common Pitfalls & Gotchas
+
+1. **No database** - All data in `institutions` array. Adding/editing requires code commit + deploy.
+2. **Date parsing sensitivity** - Format must be `"Month Day, Year"` (e.g., `"July 4, 2022"`). Invalid dates break expiry filter.
+3. **Case-sensitive matching** - `type` and `status` must be lowercase (tvet, not TVET)
+4. **Province key mismatch** - `institution.province` must exactly match key in `provinceCenters` (kebab-case)
+5. **HTML escaping in coursesImage** - Use backticks for template literals or escape quotes in table HTML
+6. **Login redirect bug** - `login.html` redirects to `'ccdomap.html'` instead of `'index.html'`
+7. **Logo fallback** - If `mbhte logo.png` missing, login page shows SVG fallback (data URI)
+8. **Marker clustering** - Not implemented. Too many markers in one area will overlap.
+9. **No form validation** - Adding institutions via code means no runtime checks for invalid data
+10. **Session persistence** - Refreshing page maintains login (localStorage/sessionStorage), but logout clears all sessions
 
 ## Testing Checklist
 
-When making changes:
-- [ ] Test all 4 filter combinations
-- [ ] Verify map markers render with correct colors
-- [ ] Check popup content displays properly
-- [ ] Test "expiring soon" filter accuracy
-- [ ] Validate mobile responsiveness (768px breakpoint)
-- [ ] Confirm search functionality works
-- [ ] Test print layout (hides controls)
+**After any data/code changes**:
+- [ ] All 4 filters (type, status, province, expiring) work independently and combined
+- [ ] Markers render with correct colors (TVET blue, HEI green, College orange, Enterprise purple)
+- [ ] Popups display institution details + courses table correctly
+- [ ] "Expiring soon" checkbox shows only institutions ≤90 days from expiry
+- [ ] Province dropdown navigates map to correct location
+- [ ] Search bar filters and zooms to institutions
+- [ ] Statistics counters update on filter changes
+- [ ] Login/logout flow works (test both localStorage and sessionStorage)
+- [ ] Mobile layout works at 768px breakpoint (control panel resizes)
+- [ ] Print layout hides control panel and header actions
+- [ ] Export CSV downloads with current filter applied
+- [ ] Map/List view toggle switches between modes
+
+**Visual regression**:
+- [ ] Pulsing marker animations working
+- [ ] Header logo displays (or fallback SVG if missing)
+- [ ] Status badges colored correctly (green/orange/red)
+- [ ] Collapsible panel toggle button works (◀/▶ icon switches)
 
 ## Contact & Context
 
-- **Organization**: BARMM TESD (Technical Education & Skills Development)
-- **Ministry**: MBHTE (Ministry of Basic, Higher and Technical Education)
-- **Geographic Coverage**: 7 provinces - Cotabato City, Maguindanao del Norte/Sur, Lanao del Sur, Basilan, Sulu, Tawi-Tawi
-- **Primary Users**: TESD staff tracking institutional accreditation compliance
+**Organization**: BARMM TESD (Technical Education & Skills Development)  
+**Ministry**: MBHTE (Ministry of Basic, Higher and Technical Education)
+
+**Geographic Coverage** (7 provinces):
+1. Cotabato City (region center)
+2. Maguindanao del Norte
+3. Maguindanao del Sur
+4. Lanao del Sur (includes Marawi City)
+5. Basilan (includes Lamitan City, Isabela City)
+6. Sulu (includes Jolo)
+7. Tawi-Tawi (includes Bongao)
+
+**Institution Types**:
+- **TVET** - Technical Vocational Education Training centers (most common)
+- **HEI** - Higher Education Institutions (colleges/universities)
+- **College** - Standalone colleges
+- **Enterprise** - Private training providers
+
+**Primary Users**: TESD staff tracking accreditation compliance and expiry dates
+
+## Quick Reference
+
+**File structure**:
+```
+/
+├── index.html          # Main app (2629 lines, ~900-2500 is data)
+├── login.html          # Auth gate (300 lines)
+├── mbhte logo.png      # Logo asset (must be present)
+├── README.md           # Minimal project description
+└── .github/
+    ├── copilot-instructions.md  # This file
+    └── workflows/
+        ├── static.yml   # GitHub Pages deploy (active)
+        └── static[1-3].yml  # Duplicate workflows (unused?)
+```
+
+**Key functions** (all in `index.html`):
+- `filterInstitutions()` - Apply all filters and update map
+- `addMarkers(institutions)` - Render/update map markers
+- `createPopupContent(inst)` - Build popup HTML
+- `isExpiringSoon(date)` - Check if date within 90 days
+- `zoomToInstitution(name)` - Pan map to specific institution
+- `exportToCSV()` - Download filtered data as CSV
+- `switchView(view)` - Toggle between map/list views
+- `togglePanel()` - Collapse/expand control panel
+- `logout()` - Clear session and redirect to login
