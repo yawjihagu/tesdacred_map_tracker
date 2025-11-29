@@ -11,11 +11,13 @@
             box-sizing: border-box;
         }
 
+        html, body {
+            height: 100%;
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #4facfe 75%, #00f2fe 100%);
-            background-size: 400% 400%;
-            animation: gradientWave 15s ease infinite;
+            background: radial-gradient(ellipse at center, rgba(255,254,234,1) 0%, rgba(255,254,234,1) 35%, #B7E8EB 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -44,6 +46,51 @@
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
+        }
+
+        .ocean { 
+            height: 5%;
+            width: 100%;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            background: #015871;
+            z-index: 0;
+        }
+
+        .wave {
+            background: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/85486/wave.svg) repeat-x; 
+            position: absolute;
+            top: -198px;
+            width: 6400px;
+            height: 198px;
+            animation: wave 7s cubic-bezier(0.36, 0.45, 0.63, 0.53) infinite;
+            transform: translate3d(0, 0, 0);
+        }
+
+        .wave:nth-of-type(2) {
+            top: -175px;
+            animation: wave 7s cubic-bezier(0.36, 0.45, 0.63, 0.53) -0.125s infinite, 
+                       swell 7s ease -1.25s infinite;
+            opacity: 1;
+        }
+
+        @keyframes wave {
+            0% {
+                margin-left: 0;
+            }
+            100% {
+                margin-left: -1600px;
+            }
+        }
+
+        @keyframes swell {
+            0%, 100% {
+                transform: translate3d(0, -25px, 0);
+            }
+            50% {
+                transform: translate3d(0, 5px, 0);
+            }
         }
 
         .login-container {
@@ -491,6 +538,11 @@
     </style>
 </head>
 <body>
+    <div class="ocean">
+        <div class="wave"></div>
+        <div class="wave"></div>
+    </div>
+
     <div class="loading-overlay" id="loadingOverlay">
         <div class="spinner"></div>
         <div class="loading-text">Verifying credentials...</div>
@@ -569,13 +621,6 @@
                 <button type="submit" class="btn-login" id="loginBtn">
                     <span>Login to Dashboard</span>
                 </button>
-
-                <div class="demo-credentials">
-                    <h4>🔑 Demo Credentials</h4>
-                    <p><strong>Admin:</strong> <code>admin</code> / <code>admin123</code></p>
-                    <p><strong>User:</strong> <code>user</code> / <code>user123</code></p>
-                    <p><strong>TESD Staff:</strong> <code>tesd</code> / <code>tesd2024</code></p>
-                </div>
             </form>
         </div>
     </div>
