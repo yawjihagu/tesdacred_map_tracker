@@ -86,11 +86,11 @@ L.divIcon({
 ```
 
 **Session storage**: 
-- `localStorage` if "remember me" checked
-- `sessionStorage` otherwise
-- Both store JSON: `{username, role, loginTime}`
+- `localStorage` if "remember me" checked (30 days)
+- `sessionStorage` otherwise (session only)
+- Both store JSON: `{username, fullName, role, loginTime, expiresIn}`
 
-**Known bug**: Redirects to `'ccdomap.html'` (non-existent) - should be `'index.html'`
+**Login flow**: Successfully redirects to `index.html` after authentication
 
 ## Common Development Tasks
 
@@ -168,8 +168,7 @@ L.divIcon({
 **Critical asset**: `mbhte logo.png` must be in repository root (referenced by both HTML files)
 
 **Known issues**:
-1. Login page redirects to non-existent `'ccdomap.html'` - should be `'index.html'`
-2. Multiple workflow files (static.yml, static1-3.yml) - likely only static.yml is active
+1. Multiple workflow files (static.yml, static1-3.yml) - likely only static.yml is active
 
 ### Local Development
 **No build process** - just open files in browser:
@@ -225,11 +224,10 @@ Real-time counts in control panel:
 3. **Case-sensitive matching** - `type` and `status` must be lowercase (tvet, not TVET)
 4. **Province key mismatch** - `institution.province` must exactly match key in `provinceCenters` (kebab-case)
 5. **HTML escaping in coursesImage** - Use backticks for template literals or escape quotes in table HTML
-6. **Login redirect bug** - `login.html` redirects to `'ccdomap.html'` instead of `'index.html'`
-7. **Logo fallback** - If `mbhte logo.png` missing, login page shows SVG fallback (data URI)
-8. **Marker clustering** - Not implemented. Too many markers in one area will overlap.
-9. **No form validation** - Adding institutions via code means no runtime checks for invalid data
-10. **Session persistence** - Refreshing page maintains login (localStorage/sessionStorage), but logout clears all sessions
+6. **Logo fallback** - If `mbhte logo.png` missing, login page shows SVG fallback (data URI)
+7. **Marker clustering** - Not implemented. Too many markers in one area will overlap.
+8. **No form validation** - Adding institutions via code means no runtime checks for invalid data
+9. **Session persistence** - Refreshing page maintains login (localStorage/sessionStorage), but logout clears all sessions
 
 ## Testing Checklist
 
@@ -280,8 +278,8 @@ Real-time counts in control panel:
 **File structure**:
 ```
 /
-├── index.html          # Main app (2629 lines, ~900-2500 is data)
-├── login.html          # Auth gate (300 lines)
+├── index.html          # Main app (3054 lines, ~900-2500 is data)
+├── login.html          # Auth gate (783 lines)
 ├── mbhte logo.png      # Logo asset (must be present)
 ├── README.md           # Minimal project description
 └── .github/
