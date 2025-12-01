@@ -2762,6 +2762,27 @@
                             <tr><td>Driving NC II</td><td>118</td><td>20241936ALTDRV204141</td><td>October 12, 2024</td><td>October 11, 2029</td></tr>
                             </tbody></table>`   
             },
+            // Here Starts the Maguindanao Institutions
+            {
+                name: "AL-Ma’rifah Institute of Knowledge and  Technology, Inc.",
+                type: "tvet",
+                lat: 6.87993,
+                lng: 124.43728,
+                address: "Meta Datu Unsay, Maguindanao del Sur",
+                province: "maguindanao-del-sur",
+                status: "accredited",
+                accreditationDate: "July 7, 2024",
+                expiryDate: "July 6, 2029",
+                contactPerson: "Zacaria A. Yunos",
+                contactNumber: "Not Indicated",
+                email: "Not Indicated",
+                coursesImage: `<table class='courses-table'><thead><tr><th>Program</th><th>Duration (hrs)</th><th>Program Reg. No.</th><th>Date Issued</th><th>Expiration Date</th></tr></thead><tbody>
+                            <tr><td>Carpentry NC II</td><td>301</td><td>20241988CONCAR218064</td><td>July 7, 2024</td><td>July 6, 2029</td></tr>
+                            <tr><td>Masonry NC II</td><td>181</td><td>20241988CONMAS218065</td><td>July 7, 2024</td><td>July 6, 2029</td></tr>
+                            <tr><td>Bread and Pastry Production NC II</td><td>141</td><td>20241988TRSBPP209063</td><td>July 7, 2024</td><td>July 6, 2029</td></tr>
+                            
+                            </tbody></table>`   
+            },
             
         ];
 
@@ -2857,6 +2878,22 @@
             document.getElementById('expiredCount').textContent = 
                 institutionsToShow.filter(i => i.status === 'expired').length;
         };
+
+                // Disable right-click
+        document.addEventListener('contextmenu', e => e.preventDefault());
+
+        // Disable F12, Ctrl+Shift+I, Ctrl+U
+        document.onkeydown = function(e) {
+        if(e.key === 'F12' || 
+            (e.ctrlKey && e.shiftKey && e.key === 'I') ||
+            (e.ctrlKey && e.key === 'U')) {
+            e.preventDefault();
+            return false;
+        }
+        };
+
+        // Disable text selection
+        document.body.style.userSelect = 'none';
 
         document.getElementById("provinceFilter").addEventListener("change", function () {
             const selected = this.value;
