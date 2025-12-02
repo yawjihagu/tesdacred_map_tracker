@@ -35,12 +35,16 @@ const institutions = [
 ```
 
 #### Province Centers for Map Navigation
-Located after map initialization in `index.html`:
+Located after map initialization in `index.html` (~line 839):
 ```javascript
 const provinceCenters = {
   "cotabato-city": { lat: 7.2047, lng: 124.2383, zoom: 12 },
   "maguindanao-del-norte": { lat: 7.3000, lng: 124.2500, zoom: 10 },
-  // ... other provinces
+  "maguindanao-del-sur": { lat: 6.8600, lng: 124.4400, zoom: 10 },
+  "lanao-del-sur": { lat: 7.9300, lng: 124.3300, zoom: 10 },
+  "basilan": { lat: 6.6000, lng: 122.0000, zoom: 10 },
+  "sulu": { lat: 6.0400, lng: 121.0000, zoom: 10 },
+  "tawi-tawi": { lat: 5.1330, lng: 120.0500, zoom: 10 }
 };
 ```
 
@@ -78,11 +82,11 @@ L.divIcon({
 **Critical**: All filters use exact string matching (case-sensitive for status/type)
 
 ### Authentication (`login.html`)
-**Demo credentials** (`validUsers` array ~line 230):
+**Demo credentials** (`validUsers` array ~line 630):
 ```javascript
-{ username: 'admin', password: 'admin123', role: 'Administrator' }
-{ username: 'user', password: 'user123', role: 'User' }
-{ username: 'tesd', password: 'tesd2024', role: 'TESD Staff' }
+{ username: 'admin', password: 'admin123', role: 'Administrator', fullName: 'Admin User' }
+{ username: 'user', password: 'user123', role: 'User', fullName: 'Regular User' }
+{ username: 'tesd', password: 'tesd2024', role: 'TESD Staff', fullName: 'TESD Officer' }
 ```
 
 **Session storage**: 
@@ -95,7 +99,7 @@ L.divIcon({
 ## Common Development Tasks
 
 ### Adding New Institutions
-1. **Locate data array**: `index.html` ~line 900-2500 (`const institutions = [...]`)
+1. **Locate data array**: `index.html` ~line 851-2812 (`const institutions = [...]`)
 2. **Copy existing entry** as template (ensure all fields present)
 3. **Required fields**:
    - `name`, `type`, `lat`, `lng`, `address`, `province`, `status`
@@ -109,16 +113,16 @@ L.divIcon({
    - Coordinates must be within BARMM bounds (lat: 4.8-8.1, lng: 119.5-125.0)
 
 ### Updating Provinces
-**Three files to modify**:
-1. `provinceCenters` object (~line 895) - add `{lat, lng, zoom}`
+**Three locations to modify**:
+1. `provinceCenters` object (~line 839) - add `{lat, lng, zoom}`
 2. `#provinceFilter` dropdown (~line 130) - add `<option value="key">Display Name</option>`
 3. Test navigation: Selecting province should pan/zoom to center
 
 **Note**: Province keys use kebab-case (e.g., `"maguindanao-del-norte"`)
 
 ### Updating Login Credentials
-**Location**: `login.html` ~line 230 (`validUsers` array)
-**Format**: `{ username: 'string', password: 'string', role: 'string' }`
+**Location**: `login.html` ~line 630 (`validUsers` array)
+**Format**: `{ username: 'string', password: 'string', role: 'string', fullName: 'string' }`
 **Warning**: Plaintext passwords - this is demo auth only, not production-secure
 
 ### Debugging Map Issues
@@ -278,7 +282,7 @@ Real-time counts in control panel:
 **File structure**:
 ```
 /
-├── index.html          # Main app (3054 lines, ~900-2500 is data)
+├── index.html          # Main app (3116 lines, ~851-2812 is data)
 ├── login.html          # Auth gate (783 lines)
 ├── mbhte logo.png      # Logo asset (must be present)
 ├── README.md           # Minimal project description
