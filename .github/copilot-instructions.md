@@ -99,7 +99,7 @@ L.divIcon({
 ## Common Development Tasks
 
 ### Adding New Institutions
-1. **Locate data array**: `index.html` ~line 851-2812 (`const institutions = [...]`)
+1. **Locate data array**: `index.html` ~line 851-3301 (`const institutions = [...]`)
 2. **Copy existing entry** as template (ensure all fields present)
 3. **Required fields**:
    - `name`, `type`, `lat`, `lng`, `address`, `province`, `status`
@@ -282,7 +282,7 @@ Real-time counts in control panel:
 **File structure**:
 ```
 /
-├── index.html          # Main app (3116 lines, ~851-2812 is data)
+├── index.html          # Main app (3605 lines, ~851-3300 is data)
 ├── login.html          # Auth gate (783 lines)
 ├── mbhte logo.png      # Logo asset (must be present)
 ├── README.md           # Minimal project description
@@ -294,12 +294,14 @@ Real-time counts in control panel:
 ```
 
 **Key functions** (all in `index.html`):
-- `filterInstitutions()` - Apply all filters and update map
-- `addMarkers(institutions)` - Render/update map markers
-- `createPopupContent(inst)` - Build popup HTML
-- `isExpiringSoon(date)` - Check if date within 90 days
-- `zoomToInstitution(name)` - Pan map to specific institution
-- `exportToCSV()` - Download filtered data as CSV
-- `switchView(view)` - Toggle between map/list views
-- `togglePanel()` - Collapse/expand control panel
-- `logout()` - Clear session and redirect to login
+- `filterInstitutions()` ~line 3450 - Apply all filters and update map
+- `addMarkers(institutions)` ~line 3359 - Render/update map markers
+- `createPopupContent(inst)` ~line 3322 - Build popup HTML
+- `isExpiringSoon(date)` ~line 3351 - Check if date within 90 days
+- `zoomToInstitution(name)` ~line 3516 - Pan map to specific institution
+- `exportToCSV()` ~line 3528 - Download filtered data as CSV
+- `switchView(view)` ~line 3494 - Toggle between map/list views
+- `togglePanel()` ~line 3509 - Collapse/expand control panel
+- `updateStats(institutions)` ~line 3386 - Update filter statistics counters
+- `updateListView(institutions)` ~line 3428 - Render card view of institutions
+- `logout()` ~line 3580 - Clear session and redirect to login
